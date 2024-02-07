@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Interface</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+      /* Custom CSS for chat interface */
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+      }
+
+      #chat-area {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+      }
+
+      #message-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body class="p-5">
+    <div id="chat-area" class="container">
+      <!-- Chat messages will be dynamically added here -->
+    </div>
+
+    <form id="chatForm" class="container">
+      <div class="form-group">
+        <label for="roomSelect">Select Room:</label>
+        <select class="form-control" id="roomSelect" name="roomSelect">
+          <option value="devops">devops</option>
+          <option value="cloud computing">cloud computing</option>
+          <option value="covid19">covid19</option>
+          <option value="sports">sports</option>
+          <option value="nodeJS">nodeJS</option>
+        </select>
+      </div>
+
+      <div class="form-group flex-grow-1 mr-2">
+        <input
+          type="text"
+          class="form-control"
+          id="messageText"
+          placeholder="Type your message..."
+          class="w-full"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send</button>
+      <button id="disconnectBtn" type="button" class="btn btn-secondary">
+        Disconect
+      </button>
+    </form>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script type="module" src="./chat.js"></script>
+  </body>
+</html>
