@@ -25,41 +25,47 @@ function initSocket(server) {
     // Access the token from the query parameters
     const token = socket.handshake.query.token;
 
-    const user = await verifyToken(token);
+    if (token) {
+      try {
+        const user = await verifyToken(token);
 
-    if (user) {
-      console.log(`user: ${user.userId} connected...`);
+        if (user) {
+          console.log(`user: ${user.userId} connected...`);
 
-      // Join room event
-      socket.on("joinRoom", (roomName) => {
-        if (roomList.includes(roomName)) {
-          socket.join(roomName);
-          socket.broadcast.emit("user-joined", user.userId);
-          console.log(`User ${user.userId} joined room: ${roomName}`);
-        }
-      });
-
-      socket.on("send-message", (message, room) => {
-        if (room) {
-          const messageDb = new GroupMessage({
-            room,
-            message,
-            from_user: user.userId,
-            date_sent: new Date(),
+          // Join room event
+          socket.on("joinRoom", (roomName) => {
+            if (roomList.includes(roomName)) {
+              socket.join(roomName);
+              socket.broadcast.emit("user-joined", user.userId);
+              console.log(`User ${user.userId} joined room: ${roomName}`);
+            }
           });
-          messageDb.save();
-          socket.to(room).emit("receive-message", message);
-        } else {
-          socket.broadcast.emit("receive-message", message);
-        }
-      });
 
-      socket.on("disconnect", () => {
-        socket.disconnect();
-        console.log("User disconnected");
-      });
-    } else {
-      socket.disconnect();
+          socket.on("send-message", (message, room) => {
+            if (room) {
+              const messageDb = new GroupMessage({
+                room,
+                message,
+                from_user: user.userId,
+                date_sent: new Date(),
+              });
+              messageDb.save();
+              socket.to(room).emit("receive-message", message);
+            } else {
+              socket.broadcast.emit("receive-message", message);
+            }
+          });
+
+          socket.on("disconnect", () => {
+            socket.disconnect();
+            console.log("User disconnected");
+          });
+        } else {
+          socket.disconnect();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   });
 
