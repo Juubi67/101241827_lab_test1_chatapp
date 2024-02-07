@@ -47,7 +47,7 @@ const populateOldMessages = async (room) => {
   });
 };
 
-await populateOldMessages(roomSelect.value);
+populateOldMessages(roomSelect.value);
 
 if (socket) {
   socket.on("connect", () => {
